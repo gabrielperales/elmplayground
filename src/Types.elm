@@ -41,18 +41,9 @@ type alias Content =
     }
 
 
-type alias ContentConfig =
-    { title : String
-    , name : String
-    , slug : String
-    , publishedDate : String
-    , author : String
-    }
-
-
 type alias Config =
-    { pages : List ContentConfig
-    , posts : List ContentConfig
+    { pages : List Content
+    , posts : List Content
     , authors : Dict String Author
     }
 

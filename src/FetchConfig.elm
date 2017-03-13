@@ -3,8 +3,9 @@ module FetchConfig exposing (..)
 import Types exposing (..)
 import Http
 import RemoteData
-import Json.Decode as Decode exposing (Decoder, field, string)
+import Json.Decode as Decode exposing (Decoder, andThen, field, at, string)
 import Dict exposing (Dict)
+import Date exposing (Date)
 
 
 fetch : Cmd Msg
@@ -31,19 +32,40 @@ request =
 configDecoder : Decoder Config
 configDecoder =
     Decode.map3 Config
-        (field "posts" (Decode.list decodeContent))
-        (field "pages" (Decode.list decodeContent))
+        (field "posts" <| Decode.list <| decodeContent Post)
+        (field "pages" <| Decode.list <| decodeContent Page)
         (field "authors" decodeConfigAuthors)
 
 
-decodeContent : Decoder ContentConfig
-decodeContent =
-    Decode.map5 ContentConfig
+decodeDate : Decoder Date
+decodeDate =
+    string
+        |> andThen
+            (\str ->
+                case (Date.fromString str) of
+                    Ok date ->
+                        Decode.succeed date
+
+                    Err error ->
+                        Decode.fail error
+            )
+
+
+decodeContent : ContentType -> Decoder Content
+decodeContent contentType =
+    Decode.map8 Content
         (field "slug" string)
         (field "name" string)
         (field "title" string)
-        (field "publishedDate" string)
-        (field "author" string)
+        (field "publishedDate" decodeDate)
+        (field "author"
+            (string
+                |> andThen (\name -> Decode.succeed <| Author name "...")
+            )
+        )
+        (Decode.succeed RemoteData.NotAsked)
+        (Decode.succeed contentType)
+        (field "intro" string)
 
 
 decodeConfigAuthor : Decoder Author

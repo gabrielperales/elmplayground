@@ -63,11 +63,17 @@ update msg model =
             { model | config = response } ! []
 
 
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        []
+
+
 main : Program Never Model Msg
 main =
     Navigation.program UrlChange
         { init = init
         , view = View.render
         , update = update
-        , subscriptions = always Sub.none
+        , subscriptions = subscriptions
         }

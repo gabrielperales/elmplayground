@@ -1,10 +1,10 @@
-module Posts exposing (posts, watchMeElmPosts)
+module Posts exposing (..)
 
-import Types exposing (Content, ContentType(..))
+import Types exposing (Config, Content, ContentType(..))
 import Authors
 import Date.Extra exposing (fromCalendarDate)
 import Date exposing (Month(..))
-import RemoteData exposing (RemoteData)
+import RemoteData exposing (WebData, RemoteData)
 
 
 helloWorld : Content
@@ -66,6 +66,16 @@ posts =
     , elmJsonDecodingOne
     , shoppingOne
     ]
+
+
+getPosts : WebData Config -> List Content
+getPosts webdata =
+    case webdata of
+        RemoteData.Success data ->
+            data.posts
+
+        _ ->
+            []
 
 
 watchMeElmPosts : List Content

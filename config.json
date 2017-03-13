@@ -3,15 +3,17 @@
     "slug": "/hello-world",
     "title": "Hello World",
     "name": "hello-world",
-    "publishedDate": "30-10-2016",
-    "author": "jack"
+    "publishedDate": "2016-10-30",
+    "author": "jack",
+    "intro": ""
   }],
   "pages": [{
-    "slug": "/",
+    "slug": "/hello",
     "name": "index",
     "title": "Elm Playground",
-    "publishedDate": "01-09-2016",
-    "author": "jack"
+    "publishedDate": "2016-09-01",
+    "author": "jack",
+    "intro": ""
   }],
   "authors": {
     "jack": {

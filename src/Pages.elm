@@ -3,8 +3,8 @@ module Pages exposing (..)
 import Authors
 import Date.Extra exposing (fromCalendarDate)
 import Date exposing (Month(..))
-import Types exposing (Content, ContentType(..))
-import RemoteData exposing (RemoteData)
+import Types exposing (Config, Content, ContentType(..))
+import RemoteData exposing (WebData, RemoteData)
 
 
 index : Content
@@ -83,6 +83,16 @@ notFound404 =
     , markdown = RemoteData.NotAsked
     , intro = ""
     }
+
+
+getPages : WebData Config -> List Content
+getPages webdata =
+    case webdata of
+        RemoteData.Success data ->
+            data.pages
+
+        _ ->
+            []
 
 
 pages : List Content

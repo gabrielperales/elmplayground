@@ -25,15 +25,15 @@ filterByContentType contentType content =
     List.filter (\c -> c.contentType == contentType) content
 
 
-filterByTitle : Maybe String -> List Content
-filterByTitle title =
+filterByTitle : List Content -> Maybe String -> List Content
+filterByTitle contentList title =
     case title of
         Just title ->
             List.filter (\c -> String.contains (String.toLower title) (String.toLower c.title))
-                Posts.posts
+                contentList
 
         Nothing ->
-            postsInOrder
+            postsInOrder contentList
 
 
 findPosts : List Content -> List Content
@@ -41,36 +41,23 @@ findPosts =
     filterByContentType Post
 
 
-latestPost : Content
-latestPost =
-    postsInOrder
+latest : List Content -> Content
+latest contentList =
+    postsInOrder contentList
         |> List.head
         |> Maybe.withDefault Pages.notFoundContent
 
 
-postsInOrder : List Content
+postsInOrder : List Content -> List Content
 postsInOrder =
-    List.sortWith (flipComparison contentByDateComparison) Posts.posts
+    List.sortWith (flip contentByDateComparison)
 
 
 watchMeElmPosts : List Content
 watchMeElmPosts =
-    List.sortWith (flipComparison contentByDateComparison) Posts.watchMeElmPosts
+    List.sortWith (flip contentByDateComparison) Posts.watchMeElmPosts
 
 
 contentByDateComparison : Content -> Content -> Order
 contentByDateComparison a b =
     Date.Extra.compare a.publishedDate b.publishedDate
-
-
-flipComparison : (a -> a -> Order) -> a -> a -> Order
-flipComparison compareFn a b =
-    case compareFn a b of
-        LT ->
-            GT
-
-        EQ ->
-            EQ
-
-        GT ->
-            LT

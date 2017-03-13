@@ -4,10 +4,11 @@ import Html exposing (..)
 import Html.Attributes exposing (class, href)
 import Html.Events
 import Types exposing (..)
-import ContentUtils exposing (latestPost)
+import ContentUtils exposing (latest)
 import Json.Decode
 import Date exposing (Date)
 import Date.Extra
+import Posts exposing (getPosts)
 
 
 navigationOnClick : Msg -> Attribute Msg
@@ -34,15 +35,19 @@ externalLink str url =
     a [ href url ] [ text str ]
 
 
-renderLatestPost : Html Msg
-renderLatestPost =
-    div []
-        [ h3 [] [ text ("Latest Post: " ++ latestPost.title) ]
-        , div []
-            [ p [] [ text latestPost.intro ]
-            , linkContent "Read more" latestPost
+renderLatestPost : Model -> Html Msg
+renderLatestPost model =
+    let
+        latestPost =
+            latest <| getPosts model.config
+    in
+        div []
+            [ h3 [] [ text ("Latest Post: " ++ latestPost.title) ]
+            , div []
+                [ p [] [ text latestPost.intro ]
+                , linkContent "Read more" latestPost
+                ]
             ]
-        ]
 
 
 formatDate : Date -> String
@@ -66,7 +71,7 @@ renderArchives model =
     div []
         [ h4 [] [ text "All posts on Elm Playground" ]
         , ul []
-            (List.map renderArchive (ContentUtils.filterByTitle model.searchPost))
+            (List.map renderArchive (ContentUtils.filterByTitle (getPosts model.config) model.searchPost))
         ]
 
 
