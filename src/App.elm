@@ -7,11 +7,13 @@ import Pages
 import OnUrlChange
 import GithubApi
 import RemoteData
+import FetchConfig
 
 
 initialModel : Model
 initialModel =
     { currentContent = Pages.index
+    , config = RemoteData.NotAsked
     , contributors = RemoteData.NotAsked
     , searchPost = Nothing
     }
@@ -26,6 +28,7 @@ init location =
         ( modelWithFirstUrl
         , Cmd.batch
             [ initialCmd
+            , FetchConfig.fetch
             , GithubApi.fetchContributors
             ]
         )
@@ -55,6 +58,9 @@ update msg model =
 
         UpdateSearchPost title ->
             { model | searchPost = Just title } ! []
+
+        FetchedConfig response ->
+            { model | config = response } ! []
 
 
 main : Program Never Model Msg

@@ -1,0 +1,22 @@
+{
+  "posts": [{
+    "slug": "/hello-world",
+    "title": "Hello World",
+    "name": "hello-world",
+    "publishedDate": "30-10-2016",
+    "author": "jack"
+  }],
+  "pages": [{
+    "slug": "/",
+    "name": "index",
+    "title": "Elm Playground",
+    "publishedDate": "01-09-2016",
+    "author": "jack"
+  }],
+  "authors": {
+    "jack": {
+      "name": "Jack Franklin",
+      "avatar": "..."
+    }
+  }
+}
