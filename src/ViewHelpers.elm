@@ -5,7 +5,7 @@ import Html.Attributes exposing (class, href)
 import Html.Events
 import Types exposing (..)
 import ContentUtils exposing (latest)
-import Json.Decode
+import Json.Decode as Decode
 import Date exposing (Date)
 import Date.Extra
 import Posts exposing (getPosts)
@@ -17,7 +17,7 @@ navigationOnClick msg =
         { stopPropagation = False
         , preventDefault = True
         }
-        (Json.Decode.succeed msg)
+        (Decode.succeed msg)
 
 
 linkContent : String -> Content -> Html Msg
@@ -39,13 +39,13 @@ renderLatestPost : Model -> Html Msg
 renderLatestPost model =
     let
         latestPost =
-            latest <| getPosts model.config
+            latest Posts.posts
     in
         div []
-            [ h3 [] [ text ("Latest Post: " ++ latestPost.title) ]
+            [ h3 [] [ text <| "Latest Post: " ++ latestPost.title ]
             , div []
-                [ p [] [ text latestPost.intro ]
-                , linkContent "Read more" latestPost
+                [ p [] [ text <| latestPost.intro ]
+                , linkContent "Read more" <| latestPost
                 ]
             ]
 
@@ -71,7 +71,7 @@ renderArchives model =
     div []
         [ h4 [] [ text "All posts on Elm Playground" ]
         , ul []
-            (List.map renderArchive (ContentUtils.filterByTitle (getPosts model.config) model.searchPost))
+            (List.map renderArchive <| ContentUtils.filterByTitle Posts.posts model.searchPost)
         ]
 
 
@@ -79,5 +79,5 @@ renderWatchMeElm : Html Msg
 renderWatchMeElm =
     div []
         [ ul []
-            (List.map renderArchive ContentUtils.watchMeElmPosts)
+            (List.map renderArchive <| ContentUtils.sortByDate Posts.watchMeElmPosts)
         ]

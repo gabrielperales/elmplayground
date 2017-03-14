@@ -14,15 +14,15 @@ allContent =
 
 
 findBySlug : List Content -> String -> Maybe Content
-findBySlug allContent slug =
-    allContent
+findBySlug contentList slug =
+    contentList
         |> List.filter (\piece -> piece.slug == slug)
         |> List.head
 
 
-filterByContentType : ContentType -> List Content -> List Content
-filterByContentType contentType content =
-    List.filter (\c -> c.contentType == contentType) content
+filterByContentType : List Content -> ContentType -> List Content
+filterByContentType contentList contentType =
+    List.filter (\c -> c.contentType == contentType) contentList
 
 
 filterByTitle : List Content -> Maybe String -> List Content
@@ -33,29 +33,22 @@ filterByTitle contentList title =
                 contentList
 
         Nothing ->
-            postsInOrder contentList
+            sortByDate contentList
 
 
 findPosts : List Content -> List Content
-findPosts =
-    filterByContentType Post
+findPosts contentList =
+    filterByContentType contentList Post
 
 
 latest : List Content -> Content
-latest contentList =
-    postsInOrder contentList
-        |> List.head
-        |> Maybe.withDefault Pages.notFoundContent
+latest =
+    sortByDate >> List.head >> Maybe.withDefault Pages.notFoundContent
 
 
-postsInOrder : List Content -> List Content
-postsInOrder =
+sortByDate : List Content -> List Content
+sortByDate =
     List.sortWith (flip contentByDateComparison)
-
-
-watchMeElmPosts : List Content
-watchMeElmPosts =
-    List.sortWith (flip contentByDateComparison) Posts.watchMeElmPosts
 
 
 contentByDateComparison : Content -> Content -> Order
