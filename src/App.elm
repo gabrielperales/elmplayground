@@ -13,9 +13,11 @@ import FetchConfig
 initialModel : Model
 initialModel =
     { currentContent = Pages.index
-    , config = RemoteData.NotAsked
     , contributors = RemoteData.NotAsked
     , searchPost = Nothing
+    , posts = []
+    , watchMePosts = []
+    , pages = []
     }
 
 
@@ -60,13 +62,17 @@ update msg model =
             { model | searchPost = Just title } ! []
 
         FetchedConfig response ->
-            { model | config = response } ! []
+            case response of
+                RemoteData.Success config ->
+                    { model | pages = config.pages, posts = config.posts, watchMePosts = config.watchMePosts } ! []
+
+                _ ->
+                    model ! []
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch
-        []
+    Sub.none
 
 
 main : Program Never Model Msg

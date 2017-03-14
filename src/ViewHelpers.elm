@@ -8,7 +8,7 @@ import ContentUtils exposing (latest)
 import Json.Decode as Decode
 import Date exposing (Date)
 import Date.Extra
-import Posts exposing (getPosts)
+import Posts
 
 
 navigationOnClick : Msg -> Attribute Msg
@@ -39,7 +39,7 @@ renderLatestPost : Model -> Html Msg
 renderLatestPost model =
     let
         latestPost =
-            latest Posts.posts
+            latest model.posts
     in
         div []
             [ h3 [] [ text <| "Latest Post: " ++ latestPost.title ]
@@ -71,13 +71,13 @@ renderArchives model =
     div []
         [ h4 [] [ text "All posts on Elm Playground" ]
         , ul []
-            (List.map renderArchive <| ContentUtils.filterByTitle Posts.posts model.searchPost)
+            (List.map renderArchive <| ContentUtils.filterByTitle model.posts model.searchPost)
         ]
 
 
-renderWatchMeElm : Html Msg
-renderWatchMeElm =
+renderWatchMeElm : Model -> Html Msg
+renderWatchMeElm model =
     div []
         [ ul []
-            (List.map renderArchive <| ContentUtils.sortByDate Posts.watchMeElmPosts)
+            (List.map renderArchive <| ContentUtils.sortByDate model.watchMePosts)
         ]

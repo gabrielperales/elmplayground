@@ -34,9 +34,10 @@ configDecoder =
     (field "authors" decodeConfigAuthors
         |> andThen
             (\authors ->
-                Decode.map2
+                Decode.map3
                     Config
                     (field "posts" <| Decode.list <| decodeContent Post authors)
+                    (field "watchme" <| Decode.list <| decodeContent Post authors)
                     (field "pages" <| Decode.list <| decodeContent Page authors)
             )
     )
@@ -59,9 +60,9 @@ decodeDate =
 decodeContent : ContentType -> Dict String Author -> Decoder Content
 decodeContent contentType authors =
     Decode.map8 Content
-        (field "slug" string)
-        (field "name" string)
         (field "title" string)
+        (field "name" string)
+        (field "slug" string)
         (field "publishedDate" decodeDate)
         (field "author"
             (string

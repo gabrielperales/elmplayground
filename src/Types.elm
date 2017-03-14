@@ -3,14 +3,15 @@ module Types exposing (..)
 import Date exposing (Date)
 import RemoteData exposing (WebData)
 import Navigation
-import Dict exposing (Dict)
 
 
 type alias Model =
     { currentContent : Content
     , contributors : WebData (List GithubContributor)
     , searchPost : Maybe String
-    , config : WebData Config
+    , posts : List Content
+    , watchMePosts : List Content
+    , pages : List Content
     }
 
 
@@ -43,6 +44,7 @@ type alias Content =
 
 type alias Config =
     { pages : List Content
+    , watchMePosts : List Content
     , posts : List Content
     }
 

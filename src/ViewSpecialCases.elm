@@ -63,7 +63,7 @@ specialCases =
           , \model ->
                 (div []
                     [ p [] [ text watchMeElmIntro ]
-                    , ViewHelpers.renderWatchMeElm
+                    , ViewHelpers.renderWatchMeElm model
                     ]
                 )
           )

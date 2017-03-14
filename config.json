@@ -15,6 +15,14 @@
     "author": "Gabriel",
     "intro": ""
   }],
+  "watchme": [{
+    "slug": "/hello",
+    "name": "index",
+    "title": "Elm Playground",
+    "publishedDate": "2016-09-01",
+    "author": "Gabriel",
+    "intro": ""
+  }],
   "authors": {
     "Gabriel": {
       "name": "Gabriel Perales",
