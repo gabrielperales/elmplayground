@@ -44,7 +44,6 @@ type alias Content =
 type alias Config =
     { pages : List Content
     , posts : List Content
-    , authors : Dict String Author
     }
 
 

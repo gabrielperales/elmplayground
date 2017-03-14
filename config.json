@@ -4,7 +4,7 @@
     "title": "Hello World",
     "name": "hello-world",
     "publishedDate": "2016-10-30",
-    "author": "jack",
+    "author": "Gabriel",
     "intro": ""
   }],
   "pages": [{
@@ -12,12 +12,12 @@
     "name": "index",
     "title": "Elm Playground",
     "publishedDate": "2016-09-01",
-    "author": "jack",
+    "author": "Gabriel",
     "intro": ""
   }],
   "authors": {
-    "jack": {
-      "name": "Jack Franklin",
+    "Gabriel": {
+      "name": "Gabriel Perales",
       "avatar": "..."
     }
   }

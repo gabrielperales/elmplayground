@@ -31,10 +31,15 @@ request =
 
 configDecoder : Decoder Config
 configDecoder =
-    Decode.map3 Config
-        (field "posts" <| Decode.list <| decodeContent Post)
-        (field "pages" <| Decode.list <| decodeContent Page)
-        (field "authors" decodeConfigAuthors)
+    (field "authors" decodeConfigAuthors
+        |> andThen
+            (\authors ->
+                Decode.map2
+                    Config
+                    (field "posts" <| Decode.list <| decodeContent Post authors)
+                    (field "pages" <| Decode.list <| decodeContent Page authors)
+            )
+    )
 
 
 decodeDate : Decoder Date
@@ -51,8 +56,8 @@ decodeDate =
             )
 
 
-decodeContent : ContentType -> Decoder Content
-decodeContent contentType =
+decodeContent : ContentType -> Dict String Author -> Decoder Content
+decodeContent contentType authors =
     Decode.map8 Content
         (field "slug" string)
         (field "name" string)
@@ -60,7 +65,15 @@ decodeContent contentType =
         (field "publishedDate" decodeDate)
         (field "author"
             (string
-                |> andThen (\name -> Decode.succeed <| Author name "...")
+                |> Decode.andThen
+                    (\name ->
+                        case Dict.get name authors of
+                            Just x ->
+                                Decode.succeed x
+
+                            Nothing ->
+                                Decode.fail "Author not found"
+                    )
             )
         )
         (Decode.succeed RemoteData.NotAsked)
