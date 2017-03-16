@@ -36,9 +36,9 @@ configDecoder =
             (\authors ->
                 Decode.map3
                     Config
-                    (field "posts" <| Decode.list <| decodeContent Post authors)
-                    (field "watchme" <| Decode.list <| decodeContent Post authors)
                     (field "pages" <| Decode.list <| decodeContent Page authors)
+                    (field "watchme" <| Decode.list <| decodeContent Post authors)
+                    (field "posts" <| Decode.list <| decodeContent Post authors)
             )
     )
 

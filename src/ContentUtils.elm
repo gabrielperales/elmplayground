@@ -1,23 +1,37 @@
 module ContentUtils exposing (..)
 
-import Types exposing (Content, ContentType(..))
+import Types exposing (Model, Author, Content, ContentType(..))
 import List
-import Pages
-import Date.Extra
-import Posts
+import Date exposing (Month(..))
+import Date.Extra exposing (fromCalendarDate)
 import String
+import RemoteData
 
 
-allContent : List Content
-allContent =
-    Pages.pages ++ Posts.posts
+allContent : Model -> List Content
+allContent model =
+    model.pages ++ model.posts ++ model.watchMePosts
 
 
-findBySlug : List Content -> String -> Maybe Content
+notFoundContent : Content
+notFoundContent =
+    { title = "Couldn't find content"
+    , contentType = Page
+    , name = "not-found"
+    , slug = "notfound"
+    , publishedDate = fromCalendarDate 2016 Sep 1
+    , author = Author "Jack" "..."
+    , markdown = RemoteData.NotAsked
+    , intro = ""
+    }
+
+
+findBySlug : List Content -> String -> Content
 findBySlug contentList slug =
     contentList
         |> List.filter (\piece -> piece.slug == slug)
         |> List.head
+        |> Maybe.withDefault notFoundContent
 
 
 filterByContentType : List Content -> ContentType -> List Content
@@ -43,7 +57,7 @@ findPosts contentList =
 
 latest : List Content -> Content
 latest =
-    sortByDate >> List.head >> Maybe.withDefault Pages.notFoundContent
+    sortByDate >> List.head >> Maybe.withDefault notFoundContent
 
 
 sortByDate : List Content -> List Content

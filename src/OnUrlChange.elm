@@ -9,9 +9,9 @@ import ViewSpecialCases
 import ContentUtils
 
 
-getContentForUrl : String -> Maybe Content
-getContentForUrl =
-    ContentUtils.findBySlug ContentUtils.allContent
+getContentForUrl : Model -> String -> Content
+getContentForUrl model =
+    ContentUtils.findBySlug <| ContentUtils.allContent model
 
 
 fetchCommand : Content -> Cmd Msg
@@ -29,13 +29,11 @@ newItemCommands newItem =
 
 update : String -> Model -> ( Model, Cmd Msg )
 update newUrl model =
-    case getContentForUrl newUrl of
-        Nothing ->
-            model ! [ Navigation.modifyUrl "/404" ]
+    let
+        item =
+            getContentForUrl model newUrl
 
-        Just item ->
-            let
-                newItem =
-                    { item | markdown = RemoteData.Loading }
-            in
-                { model | currentContent = newItem } ! newItemCommands newItem
+        newItem =
+            { item | markdown = RemoteData.Loading }
+    in
+        { model | currentContent = newItem } ! newItemCommands newItem

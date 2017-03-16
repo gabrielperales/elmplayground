@@ -4,28 +4,77 @@
     "title": "Hello World",
     "name": "hello-world",
     "publishedDate": "2016-10-30",
-    "author": "Gabriel",
-    "intro": ""
+    "author": "jack",
+    "intro": "Introducing the Elm Playground!"
+  }, {
+    "slug": "/building-the-elm-playground",
+    "title": "Building the Elm Playground",
+    "name": "building-elm-playground",
+    "publishedDate": "2016-10-31",
+    "author": "jack",
+    "intro": "A blog post on some of the techniques and libraries I used to build the Elm Playground."
+  }, {
+    "slug": "/decoding-json-in-elm-1",
+    "title": "Decoding JSON in Elm",
+    "name": "decoding-json-in-elm-1",
+    "publishedDate": "2016-11-08",
+    "author": "jack",
+    "intro": "A first post in a series on dealing with JSON in Elm."
   }],
   "pages": [{
-    "slug": "/hello",
+    "slug": "/",
     "name": "index",
     "title": "Elm Playground",
     "publishedDate": "2016-09-01",
-    "author": "Gabriel",
+    "author": "jack",
+    "intro": ""
+  }, {
+    "slug": "/about",
+    "name": "about",
+    "title": "About the Elm Playground",
+    "publishedDate": "2016-09-01",
+    "author": "jack",
+    "intro": ""
+  }, {
+    "slug": "/archives",
+    "name": "archives",
+    "title": "Archives",
+    "publishedDate": "2016-09-01",
+    "author": "jack",
+    "intro": ""
+  }, {
+    "slug": "/watch-me-elm",
+    "name": "watch-me-elm",
+    "title": "Watch Me Elm video series",
+    "publishedDate": "2016-09-01",
+    "author": "jack",
+    "intro": ""
+  }, {
+    "slug": "/404",
+    "name": "404",
+    "title": "You're lost!",
+    "publishedDate": "2016-09-01",
+    "author": "jack",
+    "intro": ""
+  }, {
+    "slug": "notfound",
+    "name": "not-found",
+    "title": "Couldn't find content",
+    "publishedDate": "2016-09-01",
+    "author": "jack",
     "intro": ""
   }],
   "watchme": [{
-    "slug": "/hello",
-    "name": "index",
-    "title": "Elm Playground",
-    "publishedDate": "2016-09-01",
-    "author": "Gabriel",
-    "intro": ""
+    "slug": "/elm-screencast-shopping-1",
+    "name": "elm-screencast-shopping-1",
+    "title": "Building a Shopping List in Elm: Episode 1",
+    "publishedDate": "2016-11-21",
+    "author": "jack",
+    "intro": "The first in a video series where I build an Elm app"
   }],
   "authors": {
-    "Gabriel": {
-      "name": "Gabriel Perales",
+    "jack": {
+      "name": "Jack Franklin",
       "avatar": "..."
     }
   }

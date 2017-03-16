@@ -12,6 +12,7 @@ type alias Model =
     , posts : List Content
     , watchMePosts : List Content
     , pages : List Content
+    , location : Maybe Navigation.Location
     }
 
 
