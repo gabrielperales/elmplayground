@@ -5,7 +5,9 @@
   "description": "",
   "scripts": {
     "build": "webpack -p",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "test": "elm-test",
+    "test:watch": "elm-test --watch"
   },
   "keywords": [],
   "author": "",

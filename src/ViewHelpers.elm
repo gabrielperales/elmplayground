@@ -8,7 +8,6 @@ import ContentUtils exposing (latest)
 import Json.Decode as Decode
 import Date exposing (Date)
 import Date.Extra
-import Posts
 
 
 navigationOnClick : Msg -> Attribute Msg
