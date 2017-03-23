@@ -3,32 +3,31 @@ module MyApp exposing (..)
 import Navigation
 import Types exposing (Model, Msg(..))
 import View
-import Pages
 import OnUrlChange
 import GithubApi
 import RemoteData
+import FetchConfig
+import ContentUtils
 
 
 initialModel : Model
 initialModel =
-    { currentContent = Pages.index
+    { currentContent = ContentUtils.notFoundContent
     , contributors = RemoteData.NotAsked
     , searchPost = Nothing
+    , posts = []
+    , watchMePosts = []
+    , pages = []
+    , location = Nothing
     }
 
 
 init : Navigation.Location -> ( Model, Cmd Msg )
 init location =
-    let
-        ( modelWithFirstUrl, initialCmd ) =
-            update (UrlChange location) initialModel
-    in
-        ( modelWithFirstUrl
-        , Cmd.batch
-            [ initialCmd
-            , GithubApi.fetchContributors
-            ]
-        )
+    { initialModel | location = Just location }
+        ! [ GithubApi.fetchContributors
+          , FetchConfig.fetch
+          ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -56,6 +55,28 @@ update msg model =
         UpdateSearchPost title ->
             { model | searchPost = Just title } ! []
 
+        FetchedConfig response ->
+            case response of
+                RemoteData.Success config ->
+                    let
+                        updatedModel =
+                            { model | pages = config.pages, posts = config.posts, watchMePosts = config.watchMePosts }
+                    in
+                        case updatedModel.location of
+                            Just loc ->
+                                update (UrlChange loc) updatedModel
+
+                            _ ->
+                                updatedModel ! []
+
+                _ ->
+                    model ! []
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
 
 main : Program Never Model Msg
 main =
@@ -63,5 +84,5 @@ main =
         { init = init
         , view = View.render
         , update = update
-        , subscriptions = always Sub.none
+        , subscriptions = subscriptions
         }

@@ -41,7 +41,7 @@ specialCases =
           , \model ->
                 (div []
                     [ p [] [ text indexIntro ]
-                    , ViewHelpers.renderLatestPost
+                    , ViewHelpers.renderLatestPost model
                     ]
                 )
           )
@@ -63,7 +63,7 @@ specialCases =
           , \model ->
                 (div []
                     [ p [] [ text watchMeElmIntro ]
-                    , ViewHelpers.renderWatchMeElm
+                    , ViewHelpers.renderWatchMeElm model
                     ]
                 )
           )

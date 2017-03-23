@@ -4,11 +4,11 @@ import Html exposing (..)
 import Html.Attributes exposing (class, href, src)
 import RemoteData exposing (WebData, RemoteData(..))
 import Markdown
-import Pages
 import Types exposing (Msg(..), GithubContributor)
 import ViewSpecialCases
 import Types exposing (Model, Msg, Content)
 import ViewHelpers exposing (linkContent, externalLink)
+import ContentUtils exposing (findBySlug, notFoundContent)
 
 
 render : Model -> Html Msg
@@ -32,10 +32,10 @@ header model =
 navigation : Model -> Html Msg
 navigation model =
     nav [ class "navigation" ]
-        [ li [] [ linkContent "Home" Pages.index ]
-        , li [] [ linkContent "About" Pages.about ]
-        , li [] [ linkContent "Watch me Elm Series" Pages.watchMeElm ]
-        , li [] [ linkContent "Archives" Pages.archives ]
+        [ li [] [ linkContent "Home" <| findBySlug model.pages "/" ]
+        , li [] [ linkContent "About" <| findBySlug model.pages "/about" ]
+        , li [] [ linkContent "Watch me Elm Series" <| findBySlug model.pages "/watch-me-elm" ]
+        , li [] [ linkContent "Archives" <| findBySlug model.pages "/archives" ]
         ]
 
 
