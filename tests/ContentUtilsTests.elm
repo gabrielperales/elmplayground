@@ -6,7 +6,6 @@ import Types exposing (ContentType(..))
 import ContentUtils exposing (..)
 import Date
 import RemoteData exposing (..)
-import Pages
 
 
 mockString : String
@@ -40,21 +39,21 @@ all =
         [ describe "findBySlug"
             [ test "Empty content" <|
                 \() ->
-                    Expect.equal Nothing <| findBySlug [] "whatever"
+                    Expect.equal ContentUtils.notFoundContent <| findBySlug [] "whatever"
             , test "Just one element" <|
                 \() ->
                     let
                         post =
                             { mockContent | slug = "slug" }
                     in
-                        Expect.equal (Just post) <| findBySlug [ post ] "slug"
+                        Expect.equal post <| findBySlug [ post ] "slug"
             , test "Slug not in the content" <|
                 \() ->
                     let
                         post =
                             { mockContent | slug = "slug" }
                     in
-                        Expect.equal Nothing <| findBySlug [ post ] "not-in-content"
+                        Expect.equal ContentUtils.notFoundContent <| findBySlug [ post ] "not-in-content"
             , test "Slug in the middle of the content" <|
                 \() ->
                     let
@@ -64,7 +63,7 @@ all =
                         content =
                             [ p, p, p, p, { p | slug = "slug" }, p ]
                     in
-                        Expect.equal (Just { p | slug = "slug" }) <| findBySlug content "slug"
+                        Expect.equal ({ p | slug = "slug" }) <| findBySlug content "slug"
             ]
         , describe "filterByContentType" <|
             -- I have the feeling that I've been testing the filter function, and I shouldn't
@@ -140,7 +139,7 @@ all =
         , describe "latest" <|
             [ test "latest of an empty content" <|
                 \() ->
-                    Expect.equal Pages.notFoundContent (latest [])
+                    Expect.equal ContentUtils.notFoundContent (latest [])
             , test "latest of one element content" <|
                 \() ->
                     let
