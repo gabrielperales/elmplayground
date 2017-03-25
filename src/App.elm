@@ -24,19 +24,10 @@ initialModel =
 
 init : Flags -> Navigation.Location -> ( Model, Cmd Msg )
 init flags location =
-    let
-        { github_token } =
-            flags
-
-        ( modelWithFirstUrl, initialCmd ) =
-            update (UrlChange location) initialModel
-    in
-        ( modelWithFirstUrl
-        , Cmd.batch
-            [ initialCmd
-            , GithubApi.fetchContributors github_token
-            ]
-        )
+    { initialModel | location = Just location }
+        ! [ GithubApi.fetchContributors flags.github_token
+          , FetchConfig.fetch
+          ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
