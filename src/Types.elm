@@ -14,6 +14,10 @@ type alias Model =
     { currentContent : Content
     , contributors : WebData (List GithubContributor)
     , searchPost : Maybe String
+    , posts : List Content
+    , watchMePosts : List Content
+    , pages : List Content
+    , location : Maybe Navigation.Location
     }
 
 
@@ -44,9 +48,17 @@ type alias Content =
     }
 
 
+type alias Config =
+    { pages : List Content
+    , watchMePosts : List Content
+    , posts : List Content
+    }
+
+
 type Msg
     = UrlChange Navigation.Location
     | FetchedContent (WebData String)
     | LinkClicked String
     | FetchedContributors (WebData (List GithubContributor))
     | UpdateSearchPost String
+    | FetchedConfig (WebData Config)

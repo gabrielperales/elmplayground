@@ -4,11 +4,10 @@ import Html exposing (..)
 import Html.Attributes exposing (class, href)
 import Html.Events
 import Types exposing (..)
-import ContentUtils
+import ContentUtils exposing (latest)
 import Json.Decode as Decode
 import Date exposing (Date)
 import Date.Extra
-import Posts
 
 
 navigationOnClick : Msg -> Attribute Msg
@@ -35,15 +34,19 @@ externalLink str url =
     a [ href url ] [ text str ]
 
 
-renderLatestPost : Html Msg
-renderLatestPost =
-    div []
-        [ h3 [] [ text ("Latest Post: " ++ .title (ContentUtils.latest Posts.posts)) ]
-        , div []
-            [ p [] [ text <| .intro <| ContentUtils.latest Posts.posts ]
-            , linkContent "Read more" <| ContentUtils.latest Posts.posts
+renderLatestPost : Model -> Html Msg
+renderLatestPost model =
+    let
+        latestPost =
+            latest model.posts
+    in
+        div []
+            [ h3 [] [ text <| "Latest Post: " ++ latestPost.title ]
+            , div []
+                [ p [] [ text <| latestPost.intro ]
+                , linkContent "Read more" <| latestPost
+                ]
             ]
-        ]
 
 
 formatDate : Date -> String
@@ -67,13 +70,13 @@ renderArchives model =
     div []
         [ h4 [] [ text "All posts on Elm Playground" ]
         , ul []
-            (List.map renderArchive <| ContentUtils.filterByTitle Posts.posts model.searchPost)
+            (List.map renderArchive <| ContentUtils.filterByTitle model.posts model.searchPost)
         ]
 
 
-renderWatchMeElm : Html Msg
-renderWatchMeElm =
+renderWatchMeElm : Model -> Html Msg
+renderWatchMeElm model =
     div []
         [ ul []
-            (List.map renderArchive <| ContentUtils.sortByDate Posts.watchMeElmPosts)
+            (List.map renderArchive <| ContentUtils.sortByDate model.watchMePosts)
         ]
