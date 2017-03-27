@@ -7,8 +7,5 @@ port newTitle : String -> Cmd msg
 
 
 setTitle : Types.Content -> Cmd Types.Msg
-setTitle content =
-    if content.name == "index" then
-        newTitle ""
-    else
-        newTitle content.title
+setTitle { title } =
+    newTitle title

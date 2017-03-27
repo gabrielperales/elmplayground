@@ -3,6 +3,7 @@ module FetchContent exposing (fetch)
 import Types exposing (Content, Msg(..), ContentType(..))
 import Http
 import RemoteData
+import ContentUtils exposing (getSlug)
 
 
 fetch : Content -> Cmd Msg
@@ -19,7 +20,7 @@ urlForContent content =
         loc =
             locationForContentType content.contentType
     in
-        "/content/" ++ loc ++ "/" ++ content.name ++ ".md"
+        "/content/" ++ loc ++ "/" ++ (getSlug content.title) ++ ".md"
 
 
 locationForContentType : ContentType -> String

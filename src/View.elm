@@ -1,7 +1,7 @@
 module View exposing (render)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href, src)
+import Html.Attributes exposing (class, href, target, src)
 import RemoteData exposing (WebData, RemoteData(..))
 import Markdown
 import Types exposing (Msg(..), GithubContributor)
@@ -22,21 +22,34 @@ render model =
 
 
 header : Model -> Html Msg
-header model =
-    Html.header [ class "header" ]
-        [ img [ src "/img/elm.png" ] []
-        , h1 [] [ text "The Elm Playground" ]
-        ]
+header { title, subtitle } =
+    Html.header [ class "header" ] [ h1 [] [ text title ], h4 [] [ text subtitle ] ]
+
+
+active : String -> String -> Html.Attribute Msg
+active path slug =
+    class
+        (if path == slug then
+            "active"
+         else
+            ""
+        )
 
 
 navigation : Model -> Html Msg
 navigation model =
-    nav [ class "navigation" ]
-        [ li [] [ linkContent "Home" <| findBySlug model.pages "/" ]
-        , li [] [ linkContent "About" <| findBySlug model.pages "/about" ]
-        , li [] [ linkContent "Watch me Elm Series" <| findBySlug model.pages "/watch-me-elm" ]
-        , li [] [ linkContent "Archives" <| findBySlug model.pages "/archives" ]
-        ]
+    let
+        path =
+            model.location
+                |> Maybe.map .pathname
+                |> Maybe.withDefault "/"
+    in
+        nav [ class "navigation" ]
+            [ li [ active "/" path ] [ linkContent "Home" <| findBySlug model.pages "/" ]
+            , li [ active "/archives" path ] [ linkContent "Archives" <| findBySlug model.pages "/archives" ]
+            , li [ active "/about" path ] [ linkContent "About" <| findBySlug model.pages "/about" ]
+            , li [ class "hireme", active "/hire-me" path ] [ linkContent "Hire me" <| findBySlug model.pages "/hire-me" ]
+            ]
 
 
 body : Model -> Html Msg
@@ -90,7 +103,7 @@ convertMarkdownToHtml markdown =
 
 renderContent : Model -> Html Msg
 renderContent model =
-    case ViewSpecialCases.getSpecialCase model.currentContent.name of
+    case ViewSpecialCases.getSpecialCase model.currentContent.title of
         Just fn ->
             article [ class "fn-content" ] [ (fn model) ]
 
@@ -106,25 +119,8 @@ renderMarkdown markdown =
 footer : Model -> Html Msg
 footer model =
     Html.footer [ class "footer" ]
-        [ renderContributors model.contributors ]
-
-
-getContributorNames : List GithubContributor -> List (Html Msg)
-getContributorNames contributors =
-    contributors
-        |> List.filter (\{ name } -> name /= "jackfranklin")
-        |> List.map (\{ name, profileUrl } -> externalLink name profileUrl)
-        |> List.intersperse (text ", ")
-
-
-renderContributors : WebData (List GithubContributor) -> Html Msg
-renderContributors contributors =
-    case contributors of
-        RemoteData.Success users ->
-            p []
-                ((text "The Elm Playground is created by Jack Franklin and contributors: ")
-                    :: getContributorNames users
-                )
-
-        _ ->
-            p [] []
+        [ text "Blog forked from "
+        , a [ target "_blank", href "https://github.com/jackfranklin/elmplayground" ] [ text "elmplayground" ]
+        , text ". Some batteries were added by "
+        , linkContent "me" <| findBySlug model.pages "/about"
+        ]

@@ -4,7 +4,6 @@ import Navigation
 import Types exposing (Flags, Model, Msg(..))
 import View
 import OnUrlChange
-import GithubApi
 import RemoteData
 import FetchConfig
 import ContentUtils
@@ -12,11 +11,11 @@ import ContentUtils
 
 initialModel : Model
 initialModel =
-    { currentContent = ContentUtils.notFoundContent
-    , contributors = RemoteData.NotAsked
+    { title = ""
+    , subtitle = ""
+    , currentContent = ContentUtils.notFoundContent
     , searchPost = Nothing
     , posts = []
-    , watchMePosts = []
     , pages = []
     , location = Nothing
     }
@@ -24,10 +23,7 @@ initialModel =
 
 init : Flags -> Navigation.Location -> ( Model, Cmd Msg )
 init flags location =
-    { initialModel | location = Just location }
-        ! [ GithubApi.fetchContributors flags.github_token
-          , FetchConfig.fetch
-          ]
+    { initialModel | location = Just location } ! [ FetchConfig.fetch ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -46,25 +42,22 @@ update msg model =
             in
                 { model | currentContent = newCurrent } ! []
 
-        FetchedContributors response ->
-            { model | contributors = response } ! []
-
         UrlChange location ->
-            OnUrlChange.update location.pathname model
+            OnUrlChange.update location.pathname { model | location = Just location }
 
         UpdateSearchPost title ->
             { model | searchPost = Just title } ! []
 
         FetchedConfig response ->
             case response of
-                RemoteData.Success config ->
+                RemoteData.Success { title, subtitle, pages, posts } ->
                     let
                         updatedModel =
-                            { model | pages = config.pages, posts = config.posts, watchMePosts = config.watchMePosts }
+                            { model | title = title, subtitle = subtitle, pages = pages, posts = posts }
                     in
                         case updatedModel.location of
-                            Just loc ->
-                                update (UrlChange loc) updatedModel
+                            Just location ->
+                                update (UrlChange location) updatedModel
 
                             _ ->
                                 updatedModel ! []

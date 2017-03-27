@@ -6,30 +6,47 @@ import Date exposing (Month(..))
 import Date.Extra exposing (fromCalendarDate)
 import String
 import RemoteData
+import Regex exposing (replace, regex, HowMany(..))
 
 
 allContent : Model -> List Content
 allContent model =
-    model.pages ++ model.posts ++ model.watchMePosts
+    model.pages ++ model.posts
 
 
 notFoundContent : Content
 notFoundContent =
     { title = "Couldn't find content"
     , contentType = Page
-    , name = "not-found"
-    , slug = "notfound"
     , publishedDate = fromCalendarDate 2016 Sep 1
     , author = Author "Jack" "..."
     , markdown = RemoteData.NotAsked
-    , intro = ""
     }
+
+
+getSlug : String -> String
+getSlug =
+    let
+        removeAccentuated : String -> String
+        removeAccentuated input =
+            input
+                |> replace All (regex "[.,\\/#!$%\\^&\\*\\+;:{}<=>?|@\\-_`~()[]]") (always "")
+                |> replace All (regex "[àáâãäå]") (always "a")
+                |> replace All (regex "[èéêë]") (always "e")
+                |> replace All (regex "[ìíîï]") (always "i")
+                |> replace All (regex "[òóôõö]") (always "o")
+                |> replace All (regex "[ùúûü]") (always "u")
+                |> replace All (regex "[ýÿ]") (always "y")
+                |> replace All (regex "ñ") (always "n")
+                |> replace All (regex "ç") (always "c")
+    in
+        String.toLower >> removeAccentuated >> String.words >> String.join "-"
 
 
 findBySlug : List Content -> String -> Content
 findBySlug contentList slug =
     contentList
-        |> List.filter (\piece -> piece.slug == slug)
+        |> List.filter (\piece -> "/" ++ (getSlug piece.title) == slug)
         |> List.head
         |> Maybe.withDefault notFoundContent
 

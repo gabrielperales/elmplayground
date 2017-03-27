@@ -11,11 +11,11 @@ type alias Flags =
 
 
 type alias Model =
-    { currentContent : Content
-    , contributors : WebData (List GithubContributor)
+    { title : String
+    , subtitle : String
+    , currentContent : Content
     , searchPost : Maybe String
     , posts : List Content
-    , watchMePosts : List Content
     , pages : List Content
     , location : Maybe Navigation.Location
     }
@@ -38,19 +38,17 @@ type ContentType
 
 type alias Content =
     { title : String
-    , name : String
-    , slug : String
     , publishedDate : Date
     , author : Author
     , markdown : WebData String
     , contentType : ContentType
-    , intro : String
     }
 
 
 type alias Config =
-    { pages : List Content
-    , watchMePosts : List Content
+    { title : String
+    , subtitle : String
+    , pages : List Content
     , posts : List Content
     }
 
@@ -59,6 +57,5 @@ type Msg
     = UrlChange Navigation.Location
     | FetchedContent (WebData String)
     | LinkClicked String
-    | FetchedContributors (WebData (List GithubContributor))
     | UpdateSearchPost String
     | FetchedConfig (WebData Config)

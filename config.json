@@ -1,80 +1,47 @@
 {
+  "title": "Gabriel Perales Blog",
+  "subtitle": "JavaScript & Elm",
   "posts": [{
-    "slug": "/hello-world",
-    "title": "Hello World",
-    "name": "hello-world",
-    "publishedDate": "2016-10-30",
-    "author": "jack",
-    "intro": "Introducing the Elm Playground!"
+    "title": "Filtrar una colección por varios criterios",
+    "publishedDate": "2016-01-08",
+    "author": "Gabriel",
+    "tags": "javascript filter function-composition"
   }, {
-    "slug": "/building-the-elm-playground",
-    "title": "Building the Elm Playground",
-    "name": "building-elm-playground",
-    "publishedDate": "2016-10-31",
-    "author": "jack",
-    "intro": "A blog post on some of the techniques and libraries I used to build the Elm Playground."
+    "title": "Simple y rápido Memoized fibonacci",
+    "publishedDate": "2016-01-03",
+    "author": "Gabriel",
+    "tags": "javascript fibonacci memoized"
   }, {
-    "slug": "/decoding-json-in-elm-1",
-    "title": "Decoding JSON in Elm",
-    "name": "decoding-json-in-elm-1",
-    "publishedDate": "2016-11-08",
-    "author": "jack",
-    "intro": "A first post in a series on dealing with JSON in Elm."
+    "title": "Aplicación parcial de funciones con bind",
+    "publishedDate": "2015-11-20",
+    "author": "Gabriel",
+    "tags": "javascript functional-programming partial-application"
+  }, {
+    "title": "Valores truthy y falsy en JavaScript",
+    "publishedDate": "2015-11-09",
+    "author": "Gabriel",
+    "tags": "javascript"
   }],
   "pages": [{
-    "slug": "/",
-    "name": "index",
-    "title": "Elm Playground",
+    "title": "",
     "publishedDate": "2016-09-01",
-    "author": "jack",
-    "intro": ""
+    "author": "Gabriel"
   }, {
-    "slug": "/about",
-    "name": "about",
-    "title": "About the Elm Playground",
+    "title": "About",
     "publishedDate": "2016-09-01",
-    "author": "jack",
-    "intro": ""
+    "author": "Gabriel"
   }, {
-    "slug": "/archives",
-    "name": "archives",
-    "title": "Archives",
+    "title": "Hire me",
     "publishedDate": "2016-09-01",
-    "author": "jack",
-    "intro": ""
+    "author": "Gabriel"
   }, {
-    "slug": "/watch-me-elm",
-    "name": "watch-me-elm",
-    "title": "Watch Me Elm video series",
+    "title": "archives",
     "publishedDate": "2016-09-01",
-    "author": "jack",
-    "intro": ""
-  }, {
-    "slug": "/404",
-    "name": "404",
-    "title": "You're lost!",
-    "publishedDate": "2016-09-01",
-    "author": "jack",
-    "intro": ""
-  }, {
-    "slug": "notfound",
-    "name": "not-found",
-    "title": "Couldn't find content",
-    "publishedDate": "2016-09-01",
-    "author": "jack",
-    "intro": ""
-  }],
-  "watchme": [{
-    "slug": "/elm-screencast-shopping-1",
-    "name": "elm-screencast-shopping-1",
-    "title": "Building a Shopping List in Elm: Episode 1",
-    "publishedDate": "2016-11-21",
-    "author": "jack",
-    "intro": "The first in a video series where I build an Elm app"
+    "author": "Gabriel"
   }],
   "authors": {
-    "jack": {
-      "name": "Jack Franklin",
+    "Gabriel": {
+      "name": "Gabriel Perales",
       "avatar": "..."
     }
   }

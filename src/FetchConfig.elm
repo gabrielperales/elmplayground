@@ -34,10 +34,11 @@ configDecoder =
     (field "authors" decodeConfigAuthors
         |> andThen
             (\authors ->
-                Decode.map3
+                Decode.map4
                     Config
+                    (field "title" string)
+                    (field "subtitle" string)
                     (field "pages" <| Decode.list <| decodeContent Page authors)
-                    (field "watchme" <| Decode.list <| decodeContent Post authors)
                     (field "posts" <| Decode.list <| decodeContent Post authors)
             )
     )
@@ -59,10 +60,8 @@ decodeDate =
 
 decodeContent : ContentType -> Dict String Author -> Decoder Content
 decodeContent contentType authors =
-    Decode.map8 Content
+    Decode.map5 Content
         (field "title" string)
-        (field "name" string)
-        (field "slug" string)
         (field "publishedDate" decodeDate)
         (field "author"
             (string
@@ -79,7 +78,6 @@ decodeContent contentType authors =
         )
         (Decode.succeed RemoteData.NotAsked)
         (Decode.succeed contentType)
-        (field "intro" string)
 
 
 decodeConfigAuthor : Decoder Author

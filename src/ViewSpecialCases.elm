@@ -12,58 +12,20 @@ type alias ViewFn =
     Model -> Html Msg
 
 
-indexIntro : String
-indexIntro =
-    """
-    The Elm Playground is a site aimed at those interested in learning about Elm, a highly
-    powerful front end language that is a pleasure to use.
-    """
-
-
-archivesIntro : String
-archivesIntro =
-    """
-    Browse through all the posts from the Elm Playground
-    """
-
-
-watchMeElmIntro : String
-watchMeElmIntro =
-    """
-    All videos in the "Watch me Elm" series are linked to below.
-    """
-
-
 specialCases : Dict String ViewFn
 specialCases =
     Dict.fromList
-        [ ( "index"
-          , \model ->
-                (div []
-                    [ p [] [ text indexIntro ]
-                    , ViewHelpers.renderLatestPost model
-                    ]
-                )
-          )
+        [ ( "", \model -> div [] [ ViewHelpers.renderLatestPosts model ] )
         , ( "archives"
           , \model ->
                 (div []
-                    [ span [] [ text archivesIntro ]
-                    , input
+                    [ input
                         [ onInput UpdateSearchPost
                         , placeholder "Search"
                         , class "searchInput"
                         ]
                         []
                     , ViewHelpers.renderArchives model
-                    ]
-                )
-          )
-        , ( "watch-me-elm"
-          , \model ->
-                (div []
-                    [ p [] [ text watchMeElmIntro ]
-                    , ViewHelpers.renderWatchMeElm model
                     ]
                 )
           )
@@ -76,8 +38,8 @@ getSpecialCase =
 
 
 hasSpecialCase : Content -> Bool
-hasSpecialCase { name } =
-    case getSpecialCase name of
+hasSpecialCase { title } =
+    case getSpecialCase title of
         Just _ ->
             True
 
