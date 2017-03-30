@@ -2,41 +2,18 @@
   "title": "Gabriel Perales Blog",
   "subtitle": "JavaScript & Elm",
   "posts": [{
-    "title": "Filtrar una colección por varios criterios",
-    "publishedDate": "2016-01-08",
+    "title": "Hello World",
+    "publishedDate": "2017-03-30",
     "author": "Gabriel",
-    "tags": "javascript filter function-composition"
-  }, {
-    "title": "Simple y rápido Memoized fibonacci",
-    "publishedDate": "2016-01-03",
-    "author": "Gabriel",
-    "tags": "javascript fibonacci memoized"
-  }, {
-    "title": "Aplicación parcial de funciones con bind",
-    "publishedDate": "2015-11-20",
-    "author": "Gabriel",
-    "tags": "javascript functional-programming partial-application"
-  }, {
-    "title": "Valores truthy y falsy en JavaScript",
-    "publishedDate": "2015-11-09",
-    "author": "Gabriel",
-    "tags": "javascript"
+    "tags": "Elm Blog"
   }],
   "pages": [{
-    "title": "",
-    "publishedDate": "2016-09-01",
-    "author": "Gabriel"
-  }, {
     "title": "About",
-    "publishedDate": "2016-09-01",
+    "publishedDate": "2017-03-30",
     "author": "Gabriel"
   }, {
     "title": "Hire me",
-    "publishedDate": "2016-09-01",
-    "author": "Gabriel"
-  }, {
-    "title": "archives",
-    "publishedDate": "2016-09-01",
+    "publishedDate": "2017-03-30",
     "author": "Gabriel"
   }],
   "authors": {

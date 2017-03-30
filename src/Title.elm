@@ -6,6 +6,6 @@ import Types
 port newTitle : String -> Cmd msg
 
 
-setTitle : Types.Content -> Cmd Types.Msg
-setTitle { title } =
+setTitle : String -> Cmd Types.Msg
+setTitle title =
     newTitle title

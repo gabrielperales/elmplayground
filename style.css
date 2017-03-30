@@ -77,6 +77,16 @@ p > code {
   font-size: 1.1625em; /* 17px */
 }
 
+.button {
+  background-color: transparent;
+  display: inline-block;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid;
+  padding: .25em .5em;
+  line-height: 1.5em
+}
+
 .searchInput {
   padding: 3px;
   display: block;
@@ -88,4 +98,44 @@ p > code {
 
 .hireme a {
   color: #d00;
+}
+
+.input-group {
+  display: block;
+  margin-bottom: .75em;
+}
+.input-group input,
+.input-group textarea,
+.input-group select {
+  background-color: transparent;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  color: #5A6378;
+  margin-top: .5em;
+  width: 100%;
+  line-height: 1.5em;
+  font-size: 1em;
+  max-width: 400px;
+}
+
+.input-group input::-webkit-input-placeholder {
+  color: #eee;
+}
+.input-group input:-moz-input-placeholder {
+  color: #eee;
+}
+.input-group input::-moz-input-placeholder {
+  color: #eee;
+}
+.input-group input:-ms-input-placeholder {
+  color: #eee;
+}
+
+.input-group textarea {
+  max-width: 550px;
+  height: 150px;
+  font-size: .85em;
+  resize: none;
 }

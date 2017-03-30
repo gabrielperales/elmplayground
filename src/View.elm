@@ -7,7 +7,7 @@ import Markdown
 import Types exposing (Msg(..), GithubContributor)
 import ViewSpecialCases
 import Types exposing (Model, Msg, Content)
-import ViewHelpers exposing (linkContent, externalLink)
+import ViewHelpers exposing (linkUrl, linkContent, externalLink)
 import ContentUtils exposing (findBySlug, notFoundContent)
 
 
@@ -26,16 +26,6 @@ header { title, subtitle } =
     Html.header [ class "header" ] [ h1 [] [ text title ], h4 [] [ text subtitle ] ]
 
 
-active : String -> String -> Html.Attribute Msg
-active path slug =
-    class
-        (if path == slug then
-            "active"
-         else
-            ""
-        )
-
-
 navigation : Model -> Html Msg
 navigation model =
     let
@@ -43,12 +33,20 @@ navigation model =
             model.location
                 |> Maybe.map .pathname
                 |> Maybe.withDefault "/"
+
+        checkActive slug =
+            class
+                (if (path == slug) then
+                    "active"
+                 else
+                    ""
+                )
     in
         nav [ class "navigation" ]
-            [ li [ active "/" path ] [ linkContent "Home" <| findBySlug model.pages "/" ]
-            , li [ active "/archives" path ] [ linkContent "Archives" <| findBySlug model.pages "/archives" ]
-            , li [ active "/about" path ] [ linkContent "About" <| findBySlug model.pages "/about" ]
-            , li [ class "hireme", active "/hire-me" path ] [ linkContent "Hire me" <| findBySlug model.pages "/hire-me" ]
+            [ li [ checkActive "/" ] [ linkUrl "Home" "/" ]
+            , li [ checkActive "/archives" ] [ linkUrl "Archives" "/archives" ]
+            , li [ checkActive "/about" ] [ linkContent "About" <| findBySlug model.pages "/about" ]
+            , li [ class "hireme", checkActive "/hire-me" ] [ linkContent "Hire me" <| findBySlug model.pages "/hire-me" ]
             ]
 
 
@@ -67,8 +65,7 @@ subContent =
 mainBody : Model -> Html Msg
 mainBody model =
     div [ class "mainBody" ]
-        [ h1 [] [ text model.currentContent.title ]
-        , renderMeta model.currentContent
+        [ renderMeta model.currentContent
         , renderContent model
         ]
 
@@ -103,12 +100,20 @@ convertMarkdownToHtml markdown =
 
 renderContent : Model -> Html Msg
 renderContent model =
-    case ViewSpecialCases.getSpecialCase model.currentContent.title of
-        Just fn ->
-            article [ class "fn-content" ] [ (fn model) ]
+    let
+        slug =
+            Maybe.map .pathname model.location
+                |> Maybe.withDefault "/"
+    in
+        case ViewSpecialCases.getSpecialCase slug of
+            Just fn ->
+                article [ class "fn-content" ] [ (fn model) ]
 
-        Nothing ->
-            renderMarkdown model.currentContent.markdown
+            Nothing ->
+                div []
+                    [ h1 [] [ text model.currentContent.title ]
+                    , renderMarkdown model.currentContent.markdown
+                    ]
 
 
 renderMarkdown : WebData String -> Html Msg

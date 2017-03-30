@@ -15,8 +15,8 @@ type alias ViewFn =
 specialCases : Dict String ViewFn
 specialCases =
     Dict.fromList
-        [ ( "", \model -> div [] [ ViewHelpers.renderLatestPosts model ] )
-        , ( "archives"
+        [ ( "/", \model -> div [] [ ViewHelpers.renderLatestPosts model ] )
+        , ( "/archives"
           , \model ->
                 (div []
                     [ input
@@ -37,9 +37,9 @@ getSpecialCase =
     ((flip Dict.get) specialCases)
 
 
-hasSpecialCase : Content -> Bool
-hasSpecialCase { title } =
-    case getSpecialCase title of
+hasSpecialCase : String -> Bool
+hasSpecialCase slug =
+    case getSpecialCase slug of
         Just _ ->
             True
 

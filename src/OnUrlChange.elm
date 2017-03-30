@@ -4,7 +4,6 @@ import Types exposing (Model, Msg, Content)
 import FetchContent
 import Title
 import RemoteData exposing (RemoteData)
-import Navigation
 import ViewSpecialCases
 import ContentUtils
 
@@ -12,19 +11,6 @@ import ContentUtils
 getContentForUrl : Model -> String -> Content
 getContentForUrl model =
     ContentUtils.findBySlug <| ContentUtils.allContent model
-
-
-fetchCommand : Content -> Cmd Msg
-fetchCommand newItem =
-    if ViewSpecialCases.hasSpecialCase newItem then
-        Cmd.none
-    else
-        FetchContent.fetch newItem
-
-
-newItemCommands : Content -> List (Cmd Msg)
-newItemCommands newItem =
-    [ fetchCommand newItem, Title.setTitle newItem ]
 
 
 update : String -> Model -> ( Model, Cmd Msg )
@@ -35,5 +21,14 @@ update newUrl model =
 
         newItem =
             { item | markdown = RemoteData.Loading }
+
+        specialCase =
+            ViewSpecialCases.hasSpecialCase newUrl
+
+        commands =
+            if specialCase then
+                []
+            else
+                [ FetchContent.fetch newItem, Title.setTitle newItem.title ]
     in
-        { model | currentContent = newItem } ! newItemCommands newItem
+        { model | currentContent = newItem } ! commands
